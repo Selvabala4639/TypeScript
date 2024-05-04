@@ -124,7 +124,7 @@ function checkNewUserName(paramNewUserName: string) {
     if (newUserNameRegex.test(newUserName)) {
 
         NewUserNameStatus = true;
-        newUserNameMessage.style.visibility = "hidden";
+        newUserNameMessage.style.visibility = "hidden"; 
     }
     else {
         NewUserNameStatus = false;

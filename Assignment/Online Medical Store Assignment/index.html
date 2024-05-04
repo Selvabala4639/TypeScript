@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <script src="TypeScript\index.js"></script>
+        <link rel="stylesheet" href="StyleSheet\medical.css">
+    </head>
+
+    <body>
+        <div id="homepage" >
+            <h2 class="welcome">Home Page</h2>
+            <button class="buttons" onclick="newUserPage()">Sign Up</button>
+            <button class="buttons" onclick="existingUserPage()">Sign in</button>
+        </div>
+
+        <div id="signup">
+            <h2 class="welcome">Sign Up Page</h2>
+            <label for="userName">Name</label><br>
+            <input type="text" name="userName" id="userName"><br>
+            <label for="newUserEmail">Email</label><br>
+            <input type="email" name="newUserEmail" id="newUserEmail"><br>
+            <label for="NewUserPassword">Password</label><br>
+            <input type="password" name="newUserPassword" id="newUserPassword"><br>
+            <label for="confirm-password">Confirm Password</label><br>
+            <input type="password" name="confirm-password" id="confirm-password"><br>
+            <label for="newUserPhone">Phone</label><br>
+            <input type="text" name="newUserPhone" id="newUserPhone" maxlength="10" minlength="10"><br>
+            <button class="submit" onclick="signUp()">Submit</button>
+        </div>
+        <div id="sign-in" class="sign-in">
+            <h2 class="welcome">Sign In Page</h2>
+            <label for="">Email</label><br>
+            <input type="text" name="" id="existing-user-email" value="selva"><br>
+            <label for="">Password</label><br>
+            <input type="text" name="" id="existing-user-password" value="selva"><br><br>
+            <button class="loginbtn" id="login" onclick="loginIn()">Login</button>
+        </div>
+        
+        <div id="welcomePage" class="welcomePage">
+            <div class="welcomeHeader">
+                <h2 class="welcome" id="greet"></h2>
+                <button class="logout" onclick="logOut()">LOG OUT</button>
+            </div>
+            <br>
+            <div>
+                <button class="buttons" onclick="renderMedicineTable()">Medicine Details</button>
+                <button class="buttons" onclick="purchase()"> Purchase</button>
+                <button class="buttons" onclick="orderHistory()">Order History</button>
+                <button class="buttons" onclick="Showcancel()">Cancel</button>
+                <button class="buttons" onclick="topUp()">TopUp</button>
+                <button class="buttons" onclick="showBalance()">Show Balance</button>
+            </div>
+            
+        </div>
+
+        <!-- Medicine Details page -->
+        <div class="medicineDetail" id="medicineDetail">
+            <h2>Medicine Details</h2>
+            <button >Add</button>
+            <div id="medicineDetailsTable">
+                <!-- Table will be inserted here  -->
+            </div>
+        </div>
+        <div class="purchase" id="purchase">
+            <h2>Purchase</h2>
+            <div id="buyTable">
+                <!-- Buy table -->
+            </div>
+            <div>
+                <form class="confirmOrder" id="confirmOrder">
+                    <h4 id="selectedMedicineName"></h4>
+                    <div class="askQuantity">
+                        <label for="">Enter Quantity</label><br>
+                        <input type="text" name="" id="quantity"><br>
+                        <button onclick=" return buyMedicine()">Confirm Order</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+        <div class="orderHistory" id="orderHistory">
+            <h2>Order History</h2>
+            <table border="1">
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Order Status</th>
+                </tr>
+                <tbody id="orderTable">
+
+                </tbody>
+            </table>
+            
+        </div>
+        <div class="cancel" id="cancel">
+            <h2>Cancel Order</h2>
+            <table border="1">
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Order Status</th>
+                    <th>Actions</th>
+                </tr>
+                <tbody id="cancelTable">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="topUp" id="topUp">
+            <h2>TopUp</h2>
+            <div id="askAmount">
+                <label for="">Enter Amount</label><br>
+                <input type="text" name="" id="amount">
+                <button class="buttons" onclick="Recharge()">Recharge</button>
+            </div>
+        </div>
+        <div class="showBalance" id="showBalance">
+            <h2 class="welcome" id="currentBalance"> </h2>
+        </div>
+    </body>
+</html>
