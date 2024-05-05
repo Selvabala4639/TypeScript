@@ -418,7 +418,7 @@ function orderHistory()
     orderTable.innerHTML ="";
 
     OrderList.forEach(order => {
-        orderTable.innerHTML += `
+        orderTable.innerHTML += `   
         <tr>
             <td>${order.MedicineName}</td>
             <td>${order.Quantity}</td>

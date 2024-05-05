@@ -315,7 +315,7 @@ function orderHistory() {
     let orderTable = document.getElementById("orderTable");
     orderTable.innerHTML = "";
     OrderList.forEach(order => {
-        orderTable.innerHTML += `
+        orderTable.innerHTML += `   
         <tr>
             <td>${order.MedicineName}</td>
             <td>${order.Quantity}</td>
