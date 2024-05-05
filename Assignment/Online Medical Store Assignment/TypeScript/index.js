@@ -60,9 +60,20 @@ function signUp() {
     let newUserPassword = document.getElementById('newUserPassword').value;
     let newUserConfirmPassword = document.getElementById('confirm-password').value;
     let newUserPhone = document.getElementById('newUserPhone').value;
-    UserList.push(new UserInfo(newUserEmail, newUserPassword, newUserConfirmPassword, newUserPhone));
-    alert("Registration Successful");
-    homePage();
+    if (checkNewUserName() && checkEmail() && checkPassword() && checkConfirmPassword() && checkPhone()) {
+        UserList.push(new UserInfo(name.value, newUserEmail, newUserPassword, newUserPhone));
+        alert("Registration Successful");
+        homePage();
+    }
+    else {
+        checkNewUserName();
+        checkEmail();
+        checkPassword();
+        checkConfirmPassword();
+        checkPhone();
+        alert("Please enter all details");
+        newUserPage();
+    }
 }
 function existingUserPage() {
     let signinpage = document.getElementById("sign-in");
@@ -118,18 +129,90 @@ function renderMedicineTable() {
     showBalance.style.display = "none";
     let medicineDetailsTable = document.getElementById('medicineDetailsTable');
     let tableHTML = "<table border='1'> ";
-    tableHTML += "<tr><th>Medicine Name</th><th>Price</th><th>Quantity</th><th>Expiry date</th></tr>";
+    tableHTML += "<tr><th>Medicine Name</th><th>Price</th><th>Quantity</th><th>Expiry date</th><td>Action</td></tr>";
     for (let i = 0; i < MedicineList.length; i++) {
         if (MedicineList[i].MedicineExpireDate > new Date()) {
             tableHTML += `<tr><td>${MedicineList[i].MedicineName}</td>
             <td>${MedicineList[i].MedicinePrice}</td>
             <td>${MedicineList[i].MedicineQuantity}</td>
-            <td>${MedicineList[i].MedicineExpireDate.toLocaleDateString('en-GB')}</td></tr>`;
+            <td>${MedicineList[i].MedicineExpireDate.toLocaleDateString('en-GB')}</td>
+            <td><button onclick = "return showEditMedicine('${MedicineList[i].MedicineId}')"> Edit </button> 
+            <button onclick="return deleteMedicine('${MedicineList[i].MedicineId}')"> Delete </button> </td>
+            </tr>`;
         }
     }
     tableHTML += "</table>";
     medicineDetailsTable.innerHTML = tableHTML;
 }
+function ShowAddMedicineForm() {
+    let addMedicine = document.getElementById("addMedicine");
+    addMedicine.style.display = "block";
+}
+let AddMedicine = () => {
+    let addMedicine = document.getElementById("addMedicine");
+    let addMedicineName = document.getElementById("addMedicineName").value;
+    let addPrice = document.getElementById("addPrice").value;
+    let addQuantity = document.getElementById("addQuantity").value;
+    let addExpiryDate = document.getElementById("addExpiryDate").value;
+    MedicineList.push(new MedicineInfo(addMedicineName, parseInt(addPrice), parseInt(addQuantity), new Date(addExpiryDate)));
+    let addMedicineForm = document.getElementById("addMedicineForm");
+    addMedicineForm.reset();
+    addMedicine.style.display = "none";
+    renderMedicineTable();
+    return false;
+};
+let showEditMedicine = (id) => {
+    let addMedicine = document.getElementById("addMedicine");
+    addMedicine.style.display = "none";
+    MedicineList.forEach(medicine => {
+        if (medicine.MedicineId == id) {
+            let editMedicine = document.getElementById("editMedicine");
+            editMedicine.style.display = "block";
+            editMedicine.innerHTML += `<button onclick="return EditMedincine('${medicine.MedicineId}')">Submit</button>`;
+            let editMedicineName = document.getElementById("editMedicineName");
+            let editPrice = document.getElementById("editPrice");
+            let editQuantity = document.getElementById("editQuantity");
+            let editExpiryDate = document.getElementById("editExpiryDate");
+            // medicine.MedicineName = editMedicineName.value;
+            // medicine.MedicinePrice = parseInt(editPrice.value);
+            // medicine.MedicineQuantity = parseInt(editQuantity.value);
+            // medicine.MedicineExpireDate = new Date(editExpiryDate.value);
+            // renderMedicineTable();
+            editMedicineName.value = medicine.MedicineName;
+            (editPrice.value) = medicine.MedicinePrice.toString();
+            editQuantity.value = medicine.MedicineQuantity.toString();
+            editExpiryDate.value = medicine.MedicineExpireDate.toISOString();
+            return false;
+        }
+    });
+};
+let EditMedincine = (id) => {
+    let editMedicineName = document.getElementById("editMedicineName");
+    let editPrice = document.getElementById("editPrice");
+    let editQuantity = document.getElementById("editQuantity");
+    let editExpiryDate = document.getElementById("editExpiryDate");
+    MedicineList.forEach(medicine => {
+        if (medicine.MedicineId == id) {
+            medicine.MedicineName = editMedicineName.value;
+            medicine.MedicinePrice = parseInt(editPrice.value);
+            medicine.MedicineQuantity = parseInt(editQuantity.value);
+            medicine.MedicineExpireDate = new Date(editExpiryDate.value);
+        }
+    });
+    let editMedicineForm = document.getElementById("editMedicineForm");
+    editMedicineForm.reset();
+    renderMedicineTable();
+    return false;
+};
+let deleteMedicine = (id) => {
+    MedicineList.forEach(medicine => {
+        if (id == medicine.MedicineId) {
+            MedicineList.pop();
+            renderMedicineTable();
+            return false;
+        }
+    });
+};
 //Purchase Function
 function purchase() {
     let medicineDetails = document.getElementById("medicineDetail");
@@ -335,3 +418,113 @@ function logOut() {
     welcomePage.style.display = "none";
     homepage.style.display = "block";
 }
+//Validating Inputs for new User Registration
+let checkNewUserName = () => {
+    let userName = document.getElementById("userName").value;
+    let regx_UserName = /^[a-zA-Z]{2,50}$/;
+    if (userName == "") {
+        document.getElementsByClassName("invalid")[0].style.visibility = "visible";
+        document.getElementsByClassName("valid")[0].style.visibility = "hidden";
+        return false;
+    }
+    else {
+        if (userName.length > 50) {
+            document.getElementsByClassName("userNamelength")[0].style.visibility = "visible";
+            document.getElementsByClassName("invalid")[0].style.visibility = "visible";
+            document.getElementsByClassName("valid")[0].style.visibility = "hidden";
+            return false;
+        }
+        else {
+            if (regx_UserName.test(userName)) {
+                document.getElementsByClassName("valid")[0].style.visibility = "visible";
+                document.getElementsByClassName("specialChar")[0].style.visibility = "hidden";
+                document.getElementsByClassName("userNamelength")[0].style.visibility = "hidden";
+                document.getElementsByClassName("invalid")[0].style.visibility = "hidden";
+                return true;
+            }
+            else {
+                document.getElementsByClassName("specialChar")[0].style.visibility = "visible";
+                document.getElementsByClassName("invalid")[0].style.visibility = "visible";
+                document.getElementsByClassName("valid")[0].style.visibility = "hidden";
+                return false;
+            }
+        }
+    }
+};
+function checkEmail() {
+    let email = document.getElementById("newUserEmail").value;
+    let regx_email = /^([a-z 0-9\.-]+)@([a-z0-9-]+).([a-z]{2,8})$/;
+    if (email == "") {
+        document.getElementsByClassName("invalid")[1].style.visibility = "visible";
+        document.getElementsByClassName("valid")[1].style.visibility = "hidden";
+        return false;
+    }
+    else {
+        if (regx_email.test(email)) {
+            document.getElementsByClassName("valid")[1].style.visibility = "visible";
+            document.getElementsByClassName("invalid")[1].style.visibility = "hidden";
+            return true;
+        }
+        else {
+            document.getElementsByClassName("invalid")[1].style.visibility = "visible";
+            document.getElementsByClassName("valid")[1].style.visibility = "hidden";
+            return false;
+        }
+    }
+}
+let checkPassword = () => {
+    let newUserPassword = document.getElementById("newUserPassword").value;
+    let regx_newUserPassword = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    if (newUserPassword == "") {
+        document.getElementsByClassName("invalid")[2].style.visibility = "visible";
+        document.getElementsByClassName("valid")[2].style.visibility = "hidden";
+        return false;
+    }
+    else {
+        if (regx_newUserPassword.test(newUserPassword)) {
+            document.getElementsByClassName("valid")[2].style.visibility = "visible";
+            document.getElementsByClassName("invalid")[2].style.visibility = "hidden";
+            return true;
+        }
+        else {
+            document.getElementsByClassName("invalid")[2].style.visibility = "visible";
+            document.getElementsByClassName("valid")[2].style.visibility = "hidden";
+            return false;
+        }
+    }
+};
+let checkConfirmPassword = () => {
+    let confirmPassword = document.getElementById("confirm-password").value;
+    let newUserPassword = document.getElementById("newUserPassword").value;
+    if (confirmPassword == newUserPassword) {
+        document.getElementsByClassName("valid")[3].style.visibility = "visible";
+        document.getElementsByClassName("invalid")[3].style.visibility = "hidden";
+        return true;
+    }
+    else {
+        document.getElementsByClassName("invalid")[3].style.visibility = "visible";
+        document.getElementsByClassName("valid")[3].style.visibility = "hidden";
+        return false;
+    }
+};
+let checkPhone = () => {
+    let newUserPhone = document.getElementById("newUserPhone").value;
+    let regx_newUserPhone = /^[0-9]{10,10}$/;
+    if (newUserPhone == "") {
+        document.getElementsByClassName("invalid")[4].style.visibility = "visible";
+        document.getElementsByClassName("valid")[4].style.visibility = "hidden";
+        return false;
+    }
+    else {
+        if (regx_newUserPhone.test(newUserPhone)) {
+            document.getElementsByClassName("valid")[4].style.visibility = "visible";
+            document.getElementsByClassName("invalid")[4].style.visibility = "hidden";
+            return true;
+        }
+        else {
+            document.getElementsByClassName("invalid")[4].style.visibility = "visible";
+            document.getElementsByClassName("valid")[4].style.visibility = "hidden";
+            return false;
+        }
+    }
+};

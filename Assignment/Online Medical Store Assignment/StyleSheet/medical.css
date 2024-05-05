@@ -25,6 +25,15 @@
     color: white;
     font-weight: bold;
 }
+.addbtn{
+    width: 12%;
+    height: 7%;
+    background-color: rgb(244, 130, 48);
+    border: 0rem;
+    color: white;
+    font-weight: bold;
+    margin-top: 2%;
+}
 
 #signup{
     display: none;
@@ -55,6 +64,15 @@
     font-size: 2rem;
 }
 
-.medicineDetail  ,.welcomePage, .confirmOrder, .purchase,.orderHistory, .cancel ,.topUp ,.showBalance{
+.medicineDetail  ,.welcomePage, .confirmOrder, .purchase,.orderHistory, .cancel ,.topUp ,.showBalance, .addMedicine, .editMedicine{
     display: none;
+}
+
+.valid{
+    color: green;
+    visibility: hidden;
+}
+.invalid, .specialChar ,.userNamelength{
+    color: red;
+    visibility: hidden;
 }

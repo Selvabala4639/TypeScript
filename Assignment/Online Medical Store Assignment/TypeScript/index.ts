@@ -101,9 +101,23 @@ function signUp()
     let newUserConfirmPassword = (document.getElementById('confirm-password') as HTMLInputElement).value;
     let newUserPhone = (document.getElementById('newUserPhone') as HTMLInputElement).value;
 
-    UserList.push(new UserInfo(newUserEmail, newUserPassword, newUserConfirmPassword, newUserPhone))
-    alert("Registration Successful");
-    homePage();
+    if(checkNewUserName() && checkEmail() && checkPassword() && checkConfirmPassword() && checkPhone())
+    {
+        UserList.push(new UserInfo(name.value, newUserEmail, newUserPassword, newUserPhone))
+        alert("Registration Successful");
+        homePage();
+    }
+    else
+    {
+        checkNewUserName();
+        checkEmail();
+        checkPassword();
+        checkConfirmPassword();
+        checkPhone();
+        alert("Please enter all details");
+        newUserPage();
+    }
+    
 }
 
 function existingUserPage()
@@ -174,19 +188,110 @@ function renderMedicineTable(){
 
      let medicineDetailsTable = document.getElementById('medicineDetailsTable') as HTMLDivElement;
      let tableHTML="<table border='1'> ";
-     tableHTML += "<tr><th>Medicine Name</th><th>Price</th><th>Quantity</th><th>Expiry date</th></tr>";
+     tableHTML += "<tr><th>Medicine Name</th><th>Price</th><th>Quantity</th><th>Expiry date</th><td>Action</td></tr>";
      for (let i = 0; i < MedicineList.length; i++) {
         if (MedicineList[i].MedicineExpireDate > new Date()) {
             tableHTML += `<tr><td>${MedicineList[i].MedicineName}</td>
             <td>${MedicineList[i].MedicinePrice}</td>
             <td>${MedicineList[i].MedicineQuantity}</td>
-            <td>${MedicineList[i].MedicineExpireDate.toLocaleDateString('en-GB')}</td></tr>`;
+            <td>${MedicineList[i].MedicineExpireDate.toLocaleDateString('en-GB')}</td>
+            <td><button onclick = "return showEditMedicine('${MedicineList[i].MedicineId}')"> Edit </button> 
+            <button onclick="return deleteMedicine('${MedicineList[i].MedicineId}')"> Delete </button> </td>
+            </tr>`;
         }
     }
     tableHTML += "</table>";
     medicineDetailsTable.innerHTML = tableHTML;
     
 }
+
+function ShowAddMedicineForm()
+{
+    let addMedicine = document.getElementById("addMedicine") as HTMLDivElement;
+    addMedicine.style.display ="block";
+}
+
+let AddMedicine = () =>{
+    let addMedicine = document.getElementById("addMedicine") as HTMLDivElement;
+
+    let addMedicineName = (document.getElementById("addMedicineName")as HTMLInputElement).value;
+    let addPrice = (document.getElementById("addPrice")as HTMLInputElement).value;
+    let addQuantity = (document.getElementById("addQuantity")as HTMLInputElement).value;
+    let addExpiryDate = (document.getElementById("addExpiryDate")as HTMLInputElement).value;
+
+    MedicineList.push(new MedicineInfo(addMedicineName, parseInt(addPrice), parseInt(addQuantity), new Date(addExpiryDate)))
+    let addMedicineForm = document.getElementById("addMedicineForm") as HTMLFormElement;
+    addMedicineForm.reset();
+    addMedicine.style.display ="none";
+    renderMedicineTable();
+    return false;
+};
+
+
+let showEditMedicine = (id:string) =>{
+    let addMedicine = document.getElementById("addMedicine") as HTMLDivElement;
+    addMedicine.style.display ="none";
+
+    MedicineList.forEach(medicine =>{
+        if(medicine.MedicineId == id)
+            {
+                let editMedicine = document.getElementById("editMedicine")as HTMLDivElement;
+                editMedicine.style.display="block";
+                editMedicine.innerHTML += `<button onclick="return EditMedincine('${medicine.MedicineId}')">Submit</button>`
+                let editMedicineName = document.getElementById("editMedicineName")as HTMLInputElement;
+                let editPrice = document.getElementById("editPrice")as HTMLInputElement;
+                let editQuantity = document.getElementById("editQuantity")as HTMLInputElement;
+                let editExpiryDate = document.getElementById("editExpiryDate")as HTMLInputElement;
+
+                // medicine.MedicineName = editMedicineName.value;
+                // medicine.MedicinePrice = parseInt(editPrice.value);
+                // medicine.MedicineQuantity = parseInt(editQuantity.value);
+                // medicine.MedicineExpireDate = new Date(editExpiryDate.value);
+                // renderMedicineTable();
+                editMedicineName.value = medicine.MedicineName;
+                (editPrice.value) =  medicine.MedicinePrice.toString();
+                editQuantity.value = medicine.MedicineQuantity.toString();
+                editExpiryDate.value = medicine.MedicineExpireDate.toISOString();
+                
+                return false;
+            }
+    });
+}
+
+let EditMedincine= (id:string)=>
+{
+    let editMedicineName = document.getElementById("editMedicineName")as HTMLInputElement;
+    let editPrice = document.getElementById("editPrice")as HTMLInputElement;
+    let editQuantity = document.getElementById("editQuantity")as HTMLInputElement;
+    let editExpiryDate = document.getElementById("editExpiryDate")as HTMLInputElement;
+
+    MedicineList.forEach(medicine =>{
+        if(medicine.MedicineId == id)
+            {
+                medicine.MedicineName = editMedicineName.value;
+                medicine.MedicinePrice = parseInt(editPrice.value);
+                medicine.MedicineQuantity = parseInt(editQuantity.value);
+                medicine.MedicineExpireDate = new Date(editExpiryDate.value);
+            }
+            
+    });
+    let editMedicineForm = document.getElementById("editMedicineForm")as HTMLFormElement;
+    editMedicineForm.reset();
+    renderMedicineTable();
+    return false;
+}
+
+let deleteMedicine = (id:string) =>
+    {
+        MedicineList.forEach(medicine =>{
+            if(id == medicine.MedicineId)
+                {
+                    MedicineList.pop();
+                    renderMedicineTable();
+                    return false;
+                }
+        });
+    }
 
 //Purchase Function
 function purchase()
@@ -440,4 +545,145 @@ function logOut()
     let welcomePage = document.getElementById("welcomePage") as HTMLDivElement;
     welcomePage.style.display = "none";
     homepage.style.display="block";
+}
+
+
+//Validating Inputs for new User Registration
+let checkNewUserName = () =>{
+    let userName = (document.getElementById("userName")as HTMLInputElement).value;
+    let  regx_UserName = /^[a-zA-Z]{2,50}$/;
+    if(userName=="")
+        {
+            (document.getElementsByClassName("invalid")[0]as HTMLLabelElement).style.visibility="visible";
+            (document.getElementsByClassName("valid")[0]as HTMLLabelElement).style.visibility="hidden";
+            return false;
+        }
+        else
+        {
+            if(userName.length>50)
+            {
+                (document.getElementsByClassName("userNamelength")[0] as HTMLLabelElement).style.visibility="visible";
+                (document.getElementsByClassName("invalid")[0]as HTMLLabelElement).style.visibility="visible";
+                (document.getElementsByClassName("valid")[0]as HTMLLabelElement).style.visibility="hidden";
+                return false;
+            }
+            else
+            {
+                if(regx_UserName.test(userName))
+                {   
+                    (document.getElementsByClassName("valid")[0]as HTMLLabelElement).style.visibility="visible";
+                    (document.getElementsByClassName("specialChar")[0]as HTMLSpanElement).style.visibility="hidden";
+                    (document.getElementsByClassName("userNamelength")[0] as HTMLLabelElement).style.visibility="hidden";
+                    (document.getElementsByClassName("invalid")[0]as HTMLLabelElement).style.visibility="hidden";
+                    return true;
+                }
+                else{
+                    (document.getElementsByClassName("specialChar")[0]as HTMLSpanElement).style.visibility="visible";
+                    (document.getElementsByClassName("invalid")[0]as HTMLLabelElement).style.visibility="visible";
+                    (document.getElementsByClassName("valid")[0]as HTMLLabelElement).style.visibility="hidden";
+                    return false;
+                }
+            }
+            
+        }
+}
+
+
+function checkEmail()
+{
+    let email = (document.getElementById("newUserEmail") as HTMLInputElement).value;
+    let regx_email = /^([a-z 0-9\.-]+)@([a-z0-9-]+).([a-z]{2,8})$/;
+    if(email=="")
+    {
+        (document.getElementsByClassName("invalid")[1]as HTMLLabelElement).style.visibility="visible";
+        (document.getElementsByClassName("valid")[1]as HTMLLabelElement).style.visibility="hidden";
+        return false;
+    }
+    else
+    {
+        if(regx_email.test(email))
+        {
+            (document.getElementsByClassName("valid")[1]as HTMLLabelElement).style.visibility="visible";
+            (document.getElementsByClassName("invalid")[1]as HTMLLabelElement).style.visibility="hidden";
+            return true;
+        }
+        else{
+            (document.getElementsByClassName("invalid")[1]as HTMLLabelElement).style.visibility="visible";
+            (document.getElementsByClassName("valid")[1]as HTMLLabelElement).style.visibility="hidden";
+            return false;
+        }
+    }
+}
+
+
+let checkPassword = () =>{
+    let newUserPassword = (document.getElementById("newUserPassword")as HTMLInputElement).value;
+    let regx_newUserPassword = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    if(newUserPassword=="")
+    {
+        (document.getElementsByClassName("invalid")[2]as HTMLLabelElement).style.visibility="visible";
+        (document.getElementsByClassName("valid")[2]as HTMLLabelElement).style.visibility="hidden";
+        return false;
+    }
+    else
+    {
+        if(regx_newUserPassword.test(newUserPassword))
+        {
+            (document.getElementsByClassName("valid")[2]as HTMLLabelElement).style.visibility="visible";
+            (document.getElementsByClassName("invalid")[2]as HTMLLabelElement).style.visibility="hidden";
+            return true;
+        }
+        else
+        {
+            (document.getElementsByClassName("invalid")[2]as HTMLLabelElement).style.visibility="visible";
+            (document.getElementsByClassName("valid")[2]as HTMLLabelElement).style.visibility="hidden";
+            return false;
+        }
+    }
+}
+
+
+let checkConfirmPassword = () =>{
+    let confirmPassword = (document.getElementById("confirm-password")as HTMLInputElement).value;
+    let newUserPassword = (document.getElementById("newUserPassword")as HTMLInputElement).value;
+    if(confirmPassword==newUserPassword)
+    {
+        (document.getElementsByClassName("valid")[3]as HTMLLabelElement).style.visibility="visible";
+        (document.getElementsByClassName("invalid")[3]as HTMLLabelElement).style.visibility="hidden";
+        return true;
+    }
+    else
+    {
+        (document.getElementsByClassName("invalid")[3]as HTMLLabelElement).style.visibility="visible";
+        (document.getElementsByClassName("valid")[3]as HTMLLabelElement).style.visibility="hidden";
+        return false;
+    }
+}
+
+let checkPhone = () =>
+{
+    let newUserPhone = (document.getElementById("newUserPhone")as HTMLInputElement).value;
+    let regx_newUserPhone = /^[0-9]{10,10}$/;
+    if(newUserPhone=="")
+        {
+            (document.getElementsByClassName("invalid")[4]as HTMLLabelElement).style.visibility="visible";
+            (document.getElementsByClassName("valid")[4]as HTMLLabelElement).style.visibility="hidden";
+            return false;
+        }
+
+    else
+    {
+        if(regx_newUserPhone.test(newUserPhone))
+            {
+                (document.getElementsByClassName("valid")[4]as HTMLLabelElement).style.visibility="visible";
+                (document.getElementsByClassName("invalid")[4]as HTMLLabelElement).style.visibility="hidden";
+                return true;
+            }
+            else
+            {
+                (document.getElementsByClassName("invalid")[4]as HTMLLabelElement).style.visibility="visible";
+                (document.getElementsByClassName("valid")[4]as HTMLLabelElement).style.visibility="hidden";
+                return false;
+            }
+    }
 }
