@@ -245,6 +245,16 @@ function showExit() {
 function logOut() {
     let homepage = document.getElementById('homepage');
     let welcomePage = document.getElementById("welcomePage");
+    let checkBalance = document.getElementById("checkBalance");
+    let recharge = document.getElementById("recharge");
+    let viewTravelHistory = document.getElementById("viewTravelHistory");
+    let travel = document.getElementById("travel");
+    let exit = document.getElementById("exit");
+    checkBalance.style.display = "none";
+    recharge.style.display = "none";
+    viewTravelHistory.style.display = "none";
+    travel.style.display = "none";
+    exit.style.display = "none";
     welcomePage.style.display = "none";
     homepage.style.display = "block";
 }

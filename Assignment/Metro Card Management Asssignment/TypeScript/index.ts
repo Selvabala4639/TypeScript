@@ -333,6 +333,18 @@ function logOut()
 {
     let homepage = document.getElementById('homepage') as HTMLDivElement;
     let welcomePage = document.getElementById("welcomePage") as HTMLDivElement;
+    
+    let checkBalance = (document.getElementById("checkBalance")as HTMLDivElement);
+    let recharge = (document.getElementById("recharge")as HTMLDivElement);
+    let viewTravelHistory = (document.getElementById("viewTravelHistory")as HTMLDivElement);
+    let travel = (document.getElementById("travel")as HTMLDivElement);
+    let exit = (document.getElementById("exit")as HTMLDivElement);
+
+    checkBalance.style.display="none";
+    recharge.style.display="none";
+    viewTravelHistory.style.display="none";
+    travel.style.display="none";
+    exit.style.display="none";
     welcomePage.style.display = "none";
     homepage.style.display="block";
 }
