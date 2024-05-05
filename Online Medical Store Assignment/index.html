@@ -14,29 +14,50 @@
         <div id="signup">
             <h2 class="welcome">Sign Up Page</h2>
             <label for="userName">Name</label><br>
-            <input type="text" name="userName" id="userName"><br>
+            <input type="text" name="userName" id="userName" onfocusout="checkNewUserName()" onkeyup="checkNewUserName()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Invalid</label>
+            <span class="specialChar">Special Character not allowed</span>
+            <label for="" class="userNamelength">Author name length should not exceed 50</label><br>
+
+            
             <label for="newUserEmail">Email</label><br>
-            <input type="email" name="newUserEmail" id="newUserEmail"><br>
+            <input type="email" name="newUserEmail" id="newUserEmail" onfocusout="checkEmail()" onkeyup="checkEmail()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Invalid</label><br>
+
+
             <label for="NewUserPassword">Password</label><br>
-            <input type="password" name="newUserPassword" id="newUserPassword"><br>
+            <input type="password" name="newUserPassword" id="newUserPassword" onfocusout="checkPassword()" onkeyup="checkPassword()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Password should contain atleast one Uppercase, one LowerCase, one digit and one Special Character</label><br>
+
+
             <label for="confirm-password">Confirm Password</label><br>
-            <input type="password" name="confirm-password" id="confirm-password"><br>
+            <input type="password" name="confirm-password" id="confirm-password" onfocusout="checkConfirmPassword()" onkeyup="checkConfirmPassword()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Password and confirm Password should match</label><br>
+
+
             <label for="newUserPhone">Phone</label><br>
-            <input type="text" name="newUserPhone" id="newUserPhone" maxlength="10" minlength="10"><br>
+            <input type="text" name="newUserPhone" id="newUserPhone" maxlength="10" minlength="10" onfocusout="checkPhone()" onkeyup="checkPhone()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Invalid</label><br>
             <button class="submit" onclick="signUp()">Submit</button>
         </div>
         <div id="sign-in" class="sign-in">
             <h2 class="welcome">Sign In Page</h2>
             <label for="">Email</label><br>
-            <input type="text" name="" id="existing-user-email"><br>
+            <input type="text" name="" id="existing-user-email" value="selva"><br>
             <label for="">Password</label><br>
-            <input type="text" name="" id="existing-user-password"><br><br>
-            <button class="loginbtn" id="login" onclick="loginIn()">Login</button>
+            <input type="text" name="" id="existing-user-password" value="selva"><br><br>
+            <button class="loginbtn" id="login" onclick="loginIn()">Login</button><br>
+            <p><i><b>Note* </b></i>email and pasword are given for easy login.</p>
         </div>
         
         <div id="welcomePage" class="welcomePage">
             <div class="welcomeHeader">
-                <h2 class="welcome">Welcome</h2>
+                <h2 class="welcome" id="greet"></h2>
                 <button class="logout" onclick="logOut()">LOG OUT</button>
             </div>
             <br>
@@ -44,35 +65,96 @@
                 <button class="buttons" onclick="renderMedicineTable()">Medicine Details</button>
                 <button class="buttons" onclick="purchase()"> Purchase</button>
                 <button class="buttons" onclick="orderHistory()">Order History</button>
-                <button class="buttons" onclick="cancel()">Cancel</button>
+                <button class="buttons" onclick="Showcancel()">Cancel</button>
                 <button class="buttons" onclick="topUp()">TopUp</button>
                 <button class="buttons" onclick="showBalance()">Show Balance</button>
             </div>
-            
         </div>
 
         <!-- Medicine Details page -->
         <div class="medicineDetail" id="medicineDetail">
             <h2>Medicine Details</h2>
-            <button >Add</button>
+            
             <div id="medicineDetailsTable">
                 <!-- Table will be inserted here  -->
+            </div>
+            <button class="addbtn" onclick="ShowAddMedicineForm()">Add</button><br>
+            <div id="addMedicine" class="addMedicine">
+                <form class="addMedicineForm" id="addMedicineForm">
+                    <input type="text" name="addMedicineName" id="addMedicineName" placeholder="Medicine Name"><br><br>
+                    <input type="number" name="addPrice" id="addPrice" placeholder="Price"><br><br>
+                    <input type="number" name="addQuantity" id="addQuantity" placeholder="Quantity"><br><br><br>
+                    <input type="date" name="addExpiryDate" id="addExpiryDate" placeholder="Expiry Date"><br>
+                    <button onclick="return AddMedicine()">Submit</button>
+                </form>
+            </div>
+            <div class="editMedicine" id="editMedicine">
+                <form id="editMedicineForm">
+                    <input type="text" name="editMedicineName" id="editMedicineName" placeholder="Medicine Name"><br><br>
+                    <input type="number" name="editPrice" id="editPrice" placeholder="Price"><br><br>
+                    <input type="number" name="editQuantity" id="editQuantity" placeholder="Quantity"><br><br><br>
+                    <input type="date" name="editExpiryDate" id="editExpiryDate" placeholder="Expiry Date"><br>
+                    
+                </form>
             </div>
         </div>
         <div class="purchase" id="purchase">
             <h2>Purchase</h2>
+            <div id="buyTable">
+                <!-- Buy table -->
+            </div>
+            <div>
+                <form class="confirmOrder" id="confirmOrder">
+                    <h4 id="selectedMedicineName"></h4>
+                    <div class="askQuantity">
+                        <label for="">Enter Quantity</label><br>
+                        <input type="text" name="" id="quantity"><br>
+                        <button onclick=" return buyMedicine()">Confirm Order</button>
+                    </div>
+                </form>
+            </div>
+            
         </div>
         <div class="orderHistory" id="orderHistory">
             <h2>Order History</h2>
+            <table border="1">
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Order Status</th>
+                </tr>
+                <tbody id="orderTable">
+
+                </tbody>
+            </table>
+            
         </div>
         <div class="cancel" id="cancel">
             <h2>Cancel Order</h2>
+            <table border="1">
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Order Status</th>
+                    <th>Actions</th>
+                </tr>
+                <tbody id="cancelTable">
+
+                </tbody>
+            </table>
         </div>
         <div class="topUp" id="topUp">
             <h2>TopUp</h2>
+            <div id="askAmount">
+                <label for="">Enter Amount</label><br>
+                <input type="text" name="" id="amount">
+                <button class="buttons" onclick="Recharge()">Recharge</button>
+            </div>
         </div>
         <div class="showBalance" id="showBalance">
-            <h2>Balance</h2>
+            <h2 class="welcome" id="currentBalance"> </h2>
         </div>
     </body>
 </html>
