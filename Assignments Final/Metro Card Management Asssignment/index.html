@@ -1,0 +1,125 @@
+<html>
+    <title>
+        Metro Card Management
+    </title>
+    <head>
+        <script src="TypeScript\index.js"></script>
+        <link rel="stylesheet" href="StyleSheet\metro.css">
+    </head>
+    <body>
+        <!-- HOMEPAGE -->
+        <div id="homepage" >
+            <h2 class="welcome">Home Page</h2>
+            <button class="buttons" onclick="newUserPage()">Sign Up</button>
+            <button class="buttons" onclick="existingUserPage()">Sign in</button>
+        </div>
+
+        <!-- SignUp -->
+        <div id="signUp" class="signUp">
+            <h2 class="welcome">Sign Up Page</h2>
+            <label for="userName">Name</label><br>
+            <input type="text" name="userName" id="userName" onfocusout="checkNewUserName()" onkeyup="checkNewUserName()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Invalid</label>
+            <span class="specialChar">Special Character not allowed</span>
+            <label for="" class="userNamelength">Author name length should not exceed 50</label><br>
+
+            
+            <label for="newUserEmail">Email</label><br>
+            <input type="email" name="newUserEmail" id="newUserEmail" onfocusout="checkEmail()" onkeyup="checkEmail()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Invalid</label><br>
+
+
+            <label for="NewUserPassword">Password</label><br>
+            <input type="password" name="newUserPassword" id="newUserPassword" onfocusout="checkPassword()" onkeyup="checkPassword()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Password should contain atleast one Uppercase, one LowerCase, one digit and one Special Character</label><br>
+
+
+            <label for="confirm-password">Confirm Password</label><br>
+            <input type="password" name="confirm-password" id="confirm-password" onfocusout="checkConfirmPassword()" onkeyup="checkConfirmPassword()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Password and confirm Password should match</label><br>
+
+
+            <label for="newUserPhone">Phone</label><br>
+            <input type="text" name="newUserPhone" id="newUserPhone" maxlength="10" minlength="10" onfocusout="checkPhone()" onkeyup="checkPhone()">
+            <label for="" class="valid" >Valid</label>
+            <label for="" class="invalid" >*Invalid</label><br>
+            <button class="submit" onclick="signUp()">Submit</button>
+        </div>
+
+        <!-- SIGNIN -->
+        <div id="signIn" class="signIn">
+            <h2 class="welcome">Sign In Page</h2>
+            <label for="">Email</label><br>
+            <input type="text" name="" id="existing-user-email" value="selva"><br>
+            <label for="">Password</label><br>
+            <input type="text" name="" id="existing-user-password" value="selva"><br><br>
+            <button class="loginbtn" id="login" onclick="loginIn()">Login</button><br>
+            <p><i><b>Note* </b></i>email and pasword are given for easy login.</p>
+        </div>
+
+        <div class="welcomePage" id="welcomePage">
+            <div class="welcomeHeader">
+                <h2 class="welcome" id="greet"></h2>
+                <button class="logout" onclick="logOut()">LOG OUT</button>
+            </div>
+            <div class="menuOptions">
+                <button class="menu" onclick="return showBalance()">Check Balance</button>
+                <button class="menu" onclick="showRecharge()">Recharge</button>
+                <button class="menu" onclick="showtravelHistory()">View Travel History</button>
+                <button class="menu" onclick="showTravel()">Travel</button>
+                <button class="menu" onclick="logOut()">Exit</button>
+            </div>
+        </div>
+        <div id="checkBalance" class="checkBalance">
+            <h2>Check Balance</h2>
+        </div>
+        <div id="recharge" class="recharge">
+            <h2>Recharge</h2>
+            <form id="rechargeForm">
+                <label for="">Enter Amount</label><br>
+                <input type="text" name="amount" id="amount"><br>
+                <button onclick="return Recharge()">Recharge</button>
+            </form>
+        </div>
+        <div id="viewTravelHistory" class="viewTravelHistory">
+            <h2>View Travel History</h2>
+            <div class="travelHistoryTable" id="travelHistoryTable">
+                <table border="1">
+                    <tr>
+                        <th>Travel ID</th>
+                        <th>Card Number</th>
+                        <th>From Location</th>
+                        <th>To Location</th>
+                        <th>Date</th>
+                        <th>Travel Cost</th>
+                    </tr>
+                    <tbody id="travelBodyTable">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="travel" class="travel">
+            <h2>Travel</h2>
+            <table border="1">
+                <tr>
+                    <th>TicketID</th>
+                    <th>From Location</th>
+                    <th>To Location</th>
+                    <th>Fair</th>
+                    <th>Action</th>
+                </tr>
+                <tbody id="ticketFairTable">
+
+                </tbody>
+            </table>
+        </div>
+        <div id="exit" class="exit">
+            <h2>Exit</h2>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+.buttons{
+    width: 12%;
+    height: 7%;
+    background-color: rgb(244, 130, 48);
+    border: 0rem;
+    color: white;
+    margin: 0 2%;
+    font-weight: bold;
+}
+.loginbtn{
+    width: 12%;
+    height: 7%;
+    background-color: rgb(244, 130, 48);
+    border: 0rem;
+    color: white;
+    font-weight: bold;
+}
+
+.submit{
+    width: 11.5%;
+    height: 7%;
+    background-color: rgb(244, 130, 48);
+    margin-top: 2%;
+    border: 0rem;
+    color: white;
+    font-weight: bold;
+}
+.addbtn{
+    width: 12%;
+    height: 7%;
+    background-color: rgb(244, 130, 48);
+    border: 0rem;
+    color: white;
+    font-weight: bold;
+    margin-top: 2%;
+}
+
+#signup{
+    display: none;
+}
+
+.sign-in{
+    display: none;
+}
+.welcomeHeader{
+    height: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 1.5%;
+}
+.logout{
+    width: 11.5%;
+    height: 70%;
+    background-color: rgb(244, 130, 48);
+    margin-top: 2%;
+    border: 0rem;
+    color: white;
+    font-weight: bold;
+}
+.welcome{
+    color: rgb(244, 130, 48);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.medicineDetail  ,.welcomePage, .confirmOrder, .purchase,.orderHistory, .cancel ,.topUp ,.showBalance, .addMedicine, .editMedicine{
+    display: none;
+}
+
+.valid{
+    color: green;
+    visibility: hidden;
+}
+.invalid, .specialChar ,.userNamelength{
+    color: red;
+    visibility: hidden;
+}
